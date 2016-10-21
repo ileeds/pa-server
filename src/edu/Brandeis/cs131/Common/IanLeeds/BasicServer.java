@@ -30,7 +30,7 @@ public class BasicServer extends Server {
 
 	@Override
 	public void disconnectInner(Client client) {
-		//releases lock and removes client from list of accessing clients
+		//removes client from list of accessing clients
 		accessing.remove(client);
 	}
 }
