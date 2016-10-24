@@ -30,7 +30,7 @@ public class ConcreteFactory implements Factory {
 
     @Override
     public Server createNewMasterServer(String label, Collection<Server> servers, Log log){
-        return new MasterServer(label, servers, log);
-        //throw new UnsupportedOperationException("Not supported yet.");
+        //return new MasterServer(label, servers, log);
+        throw new UnsupportedOperationException("Not supported yet.");
     }
 }
