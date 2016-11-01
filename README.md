@@ -1,5 +1,7 @@
-# pa-server_part1
+# pa-server
 
 The ConcreteFactory returns instances of my fully implemented BasicServer, SharedClient, and BasicClient. BasicClient and SharedClient both utilize the parent class MyClient's constructor, and have separate toString methods to display whether they are Basic or Shared (along with industry and name). MyClient's constructor instantiates a Client with the passed in parameters label and industry, a random speed from 0-9, and a requestLevel of 3.
 
 In BasicServer, a Client is allowed to connectInner if the list of accessing Clients is empty. Otherwise, it can also connectInner if it is a SharedClient, there is only one other SharedCleint in the list of accessing Clients, and these two SharedClients are not of the same industry. When a Client calls disconnectInner, it is removed from the list of accessing Clients.
+
+In MasterServer, when a Client attempts to connectInner, the lock is acquired. It then gets added to its assigned queue based on the getKey method. If it is not first in the queue, it releases the lock and waits on the notFirst condition. When it has been signaled and is first in the queue, it attempts to connect to a Basic Server. If it cannot connect, it releases the lock and waits on the noConnect condition. When it has been signaled and can connect, it removes itself from its assigned queue, signals Clients waiting to be first, and the lock is released. When a Client attempts to disconnectInner, the lock is acquired. It disconnects from its assigned server, signals Clients waiting to be allowed to connect, and the lock is released.
